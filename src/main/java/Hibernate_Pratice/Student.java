@@ -37,7 +37,7 @@ public class Student {
     public String toString() {
         return
                  rollNo +
-                        "belong to " + SName + '\'' +
+                        " belongS  to " + SName +
                         " age:" + sAGE ;
     }
 

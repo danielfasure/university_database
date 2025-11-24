@@ -2,31 +2,46 @@ package Hibernate_Pratice;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 public class Main {
     public static void main(String[] args) {
 
 
+
         Student s1 = new Student();
         s1.setsAGE(23);
-        s1.setRollNo(101);
-        s1.setSName("nam");
+        s1.setRollNo(110);
+        s1.setSName("Pam");
+
+
         System.out.println(s1);
-        Configuration cfg = new Configuration();
-        cfg.configure();
-
-        cfg.addAnnotatedClass(Hibernate_Pratice.Student.class);
-
-        SessionFactory sf = cfg.buildSessionFactory(); // to initialise you need to configure your factory with configure class
 
 
 
-      Session session = sf.openSession() ; // the session factory is used to begin session;
+        //Configuration cfg = new Configuration();
+      //  cfg.configure(); //load an xml file with the hibernate connection setting
+     //  cfg.addAnnotatedClass(Hibernate_Pratice.Student.class);
 
-        //session.save(s1);
 
-        //  Configuration c1 = new Configuration();
-//    SessionFactory f1 =
+        SessionFactory sf =new Configuration()
+                .addAnnotatedClass(Hibernate_Pratice.Student.class)
+                .configure()
+                .buildSessionFactory() ;// cfg.buildSessionFactory(); // to initialise a session you need a session factory use once
+
+      Session session = sf.openSession() ; // hibernate need session to talk to database
+
+        Transaction transaction = session.beginTransaction();
+      session.persist(s1);
+        transaction.commit();
+
+
+        Student S2 = session.getReference(Student.class,102);
+        System.out.println(S2);
+
+
+        session.close();
+        sf.close();
     }
 }
